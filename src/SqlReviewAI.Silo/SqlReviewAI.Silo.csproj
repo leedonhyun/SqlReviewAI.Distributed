@@ -1,4 +1,4 @@
-<Project Sdk="Microsoft.NET.Sdk.Worker">
+﻿<Project Sdk="Microsoft.NET.Sdk.Worker">
 
   <PropertyGroup>
     <OutputType>Exe</OutputType>
@@ -18,7 +18,6 @@
 
   <ItemGroup>
     <ProjectReference Include="..\SqlReviewAI.Core\SqlReviewAI.Core.csproj" />
-    <ProjectReference Include="..\SqlReviewAI.Contracts\SqlReviewAI.Contracts.csproj" />
     <ProjectReference Include="..\SqlReviewAI.Grains\SqlReviewAI.Grains.csproj" />
   </ItemGroup>
 

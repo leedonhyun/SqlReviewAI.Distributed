@@ -27,10 +27,8 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\SqlReviewAI.Contracts\SqlReviewAI.Contracts.csproj" />
     <ProjectReference Include="..\SqlReviewAI.Core\SqlReviewAI.Core.csproj" />
     <ProjectReference Include="..\SqlReviewAI.Grains\SqlReviewAI.Grains.csproj" />
-    <ProjectReference Include="..\SqlReviewAI.Orchestration\SqlReviewAI.Orchestration.csproj" />
     <ProjectReference Include="..\SqlReviewAI.Web.OrleansIntegration\SqlReviewAI.Web.OrleansIntegration.csproj" />
 
     <!--

@@ -20,7 +20,7 @@ public sealed class OllamaEmbeddingProvider : IEmbeddingProvider
 
     public async Task<float[]> EmbedAsync(string text, CancellationToken ct = default)
     {
-        var response = await _http.PostAsJsonAsync("/api/embeddings", new
+        var response = await _http.PostAsJsonAsync("/api/embed", new
         {
             model = _model,
             prompt = text,
@@ -29,11 +29,12 @@ public sealed class OllamaEmbeddingProvider : IEmbeddingProvider
         response.EnsureSuccessStatusCode();
 
         var body = await response.Content.ReadFromJsonAsync<OllamaEmbeddingResponse>(cancellationToken: ct);
-        return body?.Embedding ?? Array.Empty<float>();
+        return body?.Embeddings ?? Array.Empty<float>();
     }
 
     private sealed class OllamaEmbeddingResponse
     {
-        public float[]? Embedding { get; set; }
+        public float[]? Embeddings { get; set; }
+        //public List<List<float>> Embeddings { get; set; }
     }
 }

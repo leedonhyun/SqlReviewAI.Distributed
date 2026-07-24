@@ -27,6 +27,7 @@ public sealed class OrleansReviewOrchestrator : IReviewOrchestrator
     public Task IngestCorpusAsync(string corpusId, IReadOnlyList<(string SourceFile, string Sql)> entries, CancellationToken ct)
     {
         var grain = _client.GetGrain<ICorpusStatsGrain>(corpusId);
+        
         var dtoEntries = entries.Select(e => new RawSqlEntry(e.SourceFile, e.Sql)).ToList();
         return grain.IngestAsync(dtoEntries);
     }

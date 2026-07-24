@@ -12,7 +12,17 @@ using SqlReviewAI.Web;
 using SqlReviewAI.Web.Hubs;
 using SqlReviewAI.Orchestration;
 using SqlReviewAI.Web.OrleansIntegration;
+
+using Orleans.Serialization.Configuration;
 var builder = WebApplication.CreateBuilder(args);
+// Default orchestrator: everything runs in this process. Swap for
+// SqlReviewAI.Web.OrleansIntegration.OrleansReviewOrchestrator to delegate
+// to a real Orleans Silo cluster instead (see README).
+//builder.Services.AddSingleton<IReviewOrchestrator, InProcessReviewOrchestrator>();
+builder.Host.UseSqlReviewOrleansClient();// (client => client.UseLocalhostClustering());
+
+builder.Services.AddOrleansReviewOrchestrator();
+
 
 var ollamaUrl = builder.Configuration["Ollama:Url"] ?? Environment.GetEnvironmentVariable("OLLAMA_URL");
 var chatModel = builder.Configuration["Ollama:ChatModel"] ?? "qwen3:14b";
@@ -34,14 +44,6 @@ else
 {
     builder.Services.AddSingleton<Func<IEmbeddingProvider>>(_ => () => new HashingBagOfWordsEmbeddingProvider());
 }
-
-// Default orchestrator: everything runs in this process. Swap for
-// SqlReviewAI.Web.OrleansIntegration.OrleansReviewOrchestrator to delegate
-// to a real Orleans Silo cluster instead (see README).
-//builder.Services.AddSingleton<IReviewOrchestrator, InProcessReviewOrchestrator>();
-builder.Host.UseSqlReviewOrleansClient();// (client => client.UseLocalhostClustering());
-
-builder.Services.AddOrleansReviewOrchestrator();
 
 // ---- SignalR + HTTP API + OpenAPI/Swagger ---------------------------------
 builder.Services.AddSignalR();

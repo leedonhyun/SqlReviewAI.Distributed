@@ -9,6 +9,8 @@
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 
+using Orleans.Serialization.Configuration;
+using Orleans;
 using Orleans.Configuration;
 
 using SqlReviewAI.Contracts;
@@ -27,6 +29,7 @@ var host = Host.CreateDefaultBuilder(args)
         siloBuilder
             .UseLocalhostClustering()//siloPort: 11111, gatewayPort: 30000)
              //.AddMemoryGrainStorageAsDefault()
+           // .Configure<Orleans.Configuration.TypeManifestOptions>(o => o.AllowAssemblies(typeof(ICorpusStatsGrain).Assembly))
             .Configure<ClusterOptions>(o =>
             {
                 o.ClusterId = "sqlreview-dev";
@@ -62,6 +65,10 @@ var host = Host.CreateDefaultBuilder(args)
 
 
             });
+
+        siloBuilder.UseLocalhostClustering();
+        siloBuilder.AddMemoryGrainStorage("store");
+   //     siloBuilder.UseInMemoryReminderService();
     }).UseConsoleLifetime()
 
     .Build();
