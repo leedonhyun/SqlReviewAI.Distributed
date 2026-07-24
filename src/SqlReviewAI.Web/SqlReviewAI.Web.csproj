@@ -1,0 +1,51 @@
+﻿<Project Sdk="Microsoft.NET.Sdk.Web">
+
+  <PropertyGroup>
+    <!--
+      net9.0 because AddOpenApi()/MapOpenApi() (built-in OpenAPI document
+      generation) requires it. Everything else in this project (SignalR,
+      minimal APIs, the in-process orchestrator) works equally well on
+      net8.0 if you'd rather stay on the older LTS. In that case, delete
+      the OpenApi/Swagger lines from Program.cs and this file, and change
+      TargetFramework back to net8.0.
+    -->
+    <TargetFramework>net10.0</TargetFramework>
+    <Nullable>enable</Nullable>
+    <ImplicitUsings>enable</ImplicitUsings>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <!-- Requires NuGet access (nuget.org) to restore. -->
+    <PackageReference Include="Microsoft.AspNetCore.OpenApi" Version="10.0.10" />
+    <PackageReference Include="Microsoft.OpenApi" Version="2.7.5" />
+    <PackageReference Include="Microsoft.Orleans.CodeGenerator" Version="10.2.2">
+      <PrivateAssets>all</PrivateAssets>
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+    </PackageReference>
+    <PackageReference Include="Microsoft.Orleans.Sdk" Version="10.2.2" />
+    <PackageReference Include="Swashbuckle.AspNetCore.SwaggerUI" Version="10.2.3" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\SqlReviewAI.Contracts\SqlReviewAI.Contracts.csproj" />
+    <ProjectReference Include="..\SqlReviewAI.Core\SqlReviewAI.Core.csproj" />
+    <ProjectReference Include="..\SqlReviewAI.Grains\SqlReviewAI.Grains.csproj" />
+    <ProjectReference Include="..\SqlReviewAI.Orchestration\SqlReviewAI.Orchestration.csproj" />
+    <ProjectReference Include="..\SqlReviewAI.Web.OrleansIntegration\SqlReviewAI.Web.OrleansIntegration.csproj" />
+
+    <!--
+      Uncomment to call a real Orleans Silo cluster instead of the built-in
+      in-process orchestrator (see OrleansIntegration/README section in the
+      top-level README for the two-line Program.cs swap this requires).
+    -->
+    <!-- <ProjectReference Include="..\SqlReviewAI.Web.OrleansIntegration\SqlReviewAI.Web.OrleansIntegration.csproj" /> -->
+
+    <!--
+      Uncomment to route internal pipeline events through the
+      Nerdbank.Streams multiplexed channel demo instead of the plain
+      IAsyncEnumerable relay (see SqlReviewAI.Streaming).
+    -->
+    <!-- <ProjectReference Include="..\SqlReviewAI.Streaming\SqlReviewAI.Streaming.csproj" /> -->
+  </ItemGroup>
+
+</Project>
