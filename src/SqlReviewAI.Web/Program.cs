@@ -33,7 +33,7 @@ builder.Services.AddSingleton<ISqlFeatureExtractor, RegexSqlFeatureExtractor>();
 builder.Services.AddHostedService<CorpusSeeder>();
 if (ollamaUrl is not null)
 {
-    builder.Services.AddSingleton(new HttpClient { BaseAddress = new Uri(ollamaUrl) });
+    builder.Services.AddSingleton(new HttpClient { BaseAddress = new Uri(ollamaUrl), Timeout = TimeSpan.FromMinutes(5) });
     builder.Services.AddSingleton(sp => new OllamaChatProvider(sp.GetRequiredService<HttpClient>(), chatModel));
     builder.Services.AddSingleton<IChatLlmProvider>(sp => sp.GetRequiredService<OllamaChatProvider>());
     builder.Services.AddSingleton<IStreamingChatLlmProvider>(sp => sp.GetRequiredService<OllamaChatProvider>());

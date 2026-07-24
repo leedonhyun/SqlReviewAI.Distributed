@@ -50,7 +50,7 @@ var host = Host.CreateDefaultBuilder(args)
 
                 if (ollamaUrl is not null)
                 {
-                    services.AddSingleton(new HttpClient { BaseAddress = new Uri(ollamaUrl) });
+                    services.AddSingleton(new HttpClient { BaseAddress = new Uri(ollamaUrl), Timeout = TimeSpan.FromMinutes(5) });
                     services.AddSingleton<IEmbeddingProvider>(sp => new OllamaEmbeddingProvider(sp.GetRequiredService<HttpClient>(), embeddingModel));
                     services.AddSingleton(sp => new OllamaChatProvider(sp.GetRequiredService<HttpClient>(), chatModel));
                     services.AddSingleton<IChatLlmProvider>(sp => sp.GetRequiredService<OllamaChatProvider>());
